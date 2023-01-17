@@ -1,5 +1,7 @@
-﻿using DataAccess.Abstract;
+﻿using Core.DataAcces.Entityframework;
+using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTO;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,65 +11,25 @@ using System.Text;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfProductDal : IProductDal1
+    public class EfProductDal : EfEntityRepositoryBase<Product, NorthwindContext>, IProductDal1
     {
-        public void Add(Product entity)//ıdisposible pattern implementation c#
-            //obje mantığından bahsetmiyor
-        {
-            using (NorthwindContext context = new NorthwindContext())//garbage collector işi biitikten sonra silsin diye yazılan kod     
-            {
-                var addedEntitiy = context.Entry(entity);
-                addedEntitiy.State = EntityState.Added;//EntityState statik class mı?
-                context.SaveChanges();
-
-
-            }
-        }
-            public void Delete(Product entity)
-            {
-            using (NorthwindContext context = new NorthwindContext())//garbage collector işi biitikten sonra silsin diye yazılan kod     
-            {
-                var deletedEntity = context.Entry(entity);
-                deletedEntity.State = EntityState.Deleted;
-                context.SaveChanges();
-
-
-            }
-        }
-
-        public Product Get(Expression<Func<Product, bool>> filter)//???
+        public List<ProductDetailDto> GetProductDetails()
         {
             using (NorthwindContext context = new NorthwindContext())
             {
-                return context.Set<Product>().SingleOrDefault(filter);
-            }
+                var result = from p in context.Products
+                             join c in context.Categories
+                             on p.CategoryId equals c.CategoryId
+                             select new ProductDetailDto
+                             {
+                                 ProductId = p.ProductId,
+                                 ProductName = p.ProductName,
+                                 CategoryName = c.CategoryName,
+                                 UnitsInStock = p.UnitsInStock
+                             };
+
+                return result.ToList();
+        }
         }
 
-            public List<Product> GetAll(Expression<Func<Product, bool>> filter = null)
-            {
-            using (NorthwindContext context=new NorthwindContext())
-            {
-                return filter == null ? context.Set<Product>().ToList()//buysa birinci satırı değilse ikinci satırı calıstır
-                    : context.Set<Product>().Where(filter).ToList();
-            }
-                    
-                    
-                    }
-
-            public void Update(Product entity)
-            {
-            using (NorthwindContext context = new NorthwindContext())//garbage collector işi biitikten sonra silsin diye yazılan kod     
-            {
-                var updatedEntity = context.Entry(entity);
-                updatedEntity.State = EntityState.Modified;
-                context.SaveChanges();
-
-
-            }
-        }
-
-
-
-        }
-        
-    }
+    } }
