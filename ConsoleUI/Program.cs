@@ -8,7 +8,7 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-           //  ProductTest();
+             ProductTest();
 
             // Console.WriteLine("Hello World!");
             //CategoryTest();-Category test çalışmıyor implemnt sonrası method blokları boş episode 9 
@@ -29,12 +29,20 @@ namespace ConsoleUI
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
 
-
-            foreach (var product in productManager.GetProductDetailDtos())
-
-
+            var result = productManager.GetProductDetailDtos();
+           
+            if (result.Success == true)
             {
-                Console.WriteLine(product.ProductName+" / "+ product.CategoryName);
+                foreach (var product in result.Data)
+                {
+                    Console.WriteLine(product.ProductName + "/" + product.CategoryName);
+                    
+
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
             }
         }
     }
