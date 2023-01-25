@@ -7,12 +7,8 @@ using System.Text;
 
 namespace DataAccess.Abstract
 {
-   public interface IProductDal1:IEntityRepository<Product>
+    public interface IProductDal : IEntityRepository<Product>
     {
         List<ProductDetailDto> GetProductDetails();
-
-
-
-
     }
 }

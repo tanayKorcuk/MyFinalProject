@@ -25,24 +25,36 @@ namespace WebAPI.Controllers
             _productService = productService;
         }
 
-        [HttpGet("GetAll")]
-        public IActionResult Get()
+        [HttpPost("Add")]
+        public IActionResult Add(Product product)
         {
+            var result = _productService.Add(product);
 
-            //loosely coupled
-            //   IProductService productService = new ProductManager(new EfProductDal());//product service product managera product maneger ef productdal aihtiyac duyuyor
-            var result = _productService.GetAll();
             if (result.Success)
             {
                 return Ok(result);
             }
+
             return BadRequest(result);
+        }
 
+        [HttpGet("GetAll")]
+        public IActionResult GetAll()
+        {
+            //loosely coupled
+            //   IProductService productService = new ProductManager(new EfProductDal());//product service product managera product maneger ef productdal aihtiyac duyuyor
+            var result = _productService.GetAll();
 
+            if (result.Success)
+            {
+                return Ok(result);
+            }
 
-        }//ende get methd
-        [HttpGet("getbyid")]//delete ve güncelleme işlerinde post kullanılabilir
-        public IActionResult Get(int id)
+            return BadRequest(result);
+        }
+
+        [HttpGet("GetById")] //delete ve güncelleme işlerinde post kullanılabilir
+        public IActionResult GetById(int id)
         {
             var result = _productService.GetById(id);
             if (result.Success)
@@ -53,12 +65,12 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-
-        [HttpGet("getDetails")]
+        [HttpGet("GetProductsByCategoryId")]
         public IActionResult GetProductsByCategoryId(int categoryId)//kullanılan methodda instancı nasıl veririz
         {
             //id = 3;
             var result = _productService.GetAll(p => p.CategoryId == categoryId);
+
             if (result.Success)
             {
                 return Ok(result);
@@ -66,23 +78,6 @@ namespace WebAPI.Controllers
 
             return BadRequest(result);
         }  //categorileri gez bizim berdiğimiz categorye eşit olanları returnle
-
-        [HttpPost("add")]
-        public IActionResult Add(Product product)
-        {
-            var result = _productService.Add(product);
-            
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-
-
-        }
-
     }
-
 }
 

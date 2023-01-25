@@ -9,14 +9,10 @@ using System.Text;
 
 namespace Core.DataAcces.Entityframework
 {
-   public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity> 
-   // tekrardan kullanılalir bir yapı
-        where TEntity: class, IEntity, new()
-        where TContext: DbContext,new()
-    
-    
-    
-    
+    public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
+         // tekrardan kullanılalir bir yapı
+         where TEntity : class, IEntity, new()
+         where TContext : DbContext, new()
     {
         public void Add(TEntity entity)//ıdisposible pattern implementation c#
                                        //obje mantığından bahsetmiyor
@@ -30,6 +26,7 @@ namespace Core.DataAcces.Entityframework
 
             }
         }
+
         public void Delete(TEntity entity)
         {
             using (TContext context = new TContext())//garbage collector işi biitikten sonra silsin diye yazılan kod     
@@ -57,8 +54,6 @@ namespace Core.DataAcces.Entityframework
                 return filter == null ? context.Set<TEntity>().ToList()//buysa birinci satırı değilse ikinci satırı calıstır
                     : context.Set<TEntity>().Where(filter).ToList();
             }
-
-
         }
 
         public void Update(TEntity entity)
@@ -68,13 +63,7 @@ namespace Core.DataAcces.Entityframework
                 var updatedEntity = context.Entry(entity);
                 updatedEntity.State = EntityState.Modified;
                 context.SaveChanges();
-
-
             }
         }
-
-
-
-
     }
 }

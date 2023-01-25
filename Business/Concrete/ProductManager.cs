@@ -14,9 +14,9 @@ namespace Business.Concrete
 {
     public class ProductManager : IProductService
     {
-        IProductDal1 _productDal;//field olsuturuyoruz injection için
+        IProductDal _productDal;//field olsuturuyoruz injection için
 
-        public ProductManager(IProductDal1 productdal)//constructor injection
+        public ProductManager(IProductDal productdal)//constructor injection
         {
             _productDal = productdal;
         }

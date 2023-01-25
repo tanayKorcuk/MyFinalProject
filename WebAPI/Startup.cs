@@ -29,11 +29,13 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           //Autofac,ninject,castlewindsor,structureMap
-           //autofac bize aop saglýyor
-           // services.AddControllers();
-           // services.AddSingleton<IProductService, ProductManager>();
-            //services.AddSingleton<IProductDal1,EfProductDal>();//bunlarý sonrasýnda configurasyonda hallettik autofac ile
+            services.AddControllers();
+
+            // Autofac, ninject, castlewindsor, structureMap
+            // autofac bize aop saglýyor
+            // bunlarý sonrasýnda configurasyonda hallettik autofac ile
+            //services.AddSingleton<IProductService, ProductManager>();
+            //services.AddSingleton<IProductDal1, EfProductDal>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,8 +57,5 @@ namespace WebAPI
                 endpoints.MapControllers();
             });
         }
-     
-    
-    
     }
 }

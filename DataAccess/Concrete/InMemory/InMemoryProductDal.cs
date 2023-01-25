@@ -9,7 +9,7 @@ using System.Text;
 
 namespace DataAccess.Concrete.InMemory
 {
-    public class InMemoryProductDal : IProductDal1
+    public class InMemoryProductDal : IProductDal
     {
 //Orackle,Sql Server,Postgres,MongoDb veritabanından geliyor gibi
         List<Product> _products;
@@ -81,7 +81,7 @@ namespace DataAccess.Concrete.InMemory
             productToUpdate.UnitsInStock = product.UnitsInStock;
         }
 
-        List<ProductDetailDto> IProductDal1.GetProductDetails()
+        List<ProductDetailDto> IProductDal.GetProductDetails()
         {
             throw new NotImplementedException();
         }
