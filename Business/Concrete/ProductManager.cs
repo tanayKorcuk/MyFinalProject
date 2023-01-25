@@ -7,32 +7,33 @@ using Entities.Concrete;
 using Entities.DTO;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Concrete
 {
     public class ProductManager : IProductService
     {
-        IProductDal1 _productDal;//class objesini oluşturma gereksinimi duydu
+        IProductDal1 _productDal;//field olsuturuyoruz injection için
 
-        public ProductManager(IProductDal1 productdal)
+        public ProductManager(IProductDal1 productdal)//constructor injection
         {
             _productDal = productdal;
         }
 
-        public IDataResult<List<Product>> GetAll()//list<Product> dan 
+        public IDataResult<List<Product>> GetAll(Expression<Func<Product, bool>> filter = null)//list<Product> dan 
         {
-            if (DateTime.Now.Hour == 0)
-            {
-                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
-            }
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductsListed);
+            //   if (DateTime.Now.Hour == 1)
+            //  {
+            //     return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
+            //}
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(filter), Messages.ProductsListed);
         }
-        //72 91 29
-        public List<Product> GetProductDetails(int id)
+
+        public List<Product> GetProductsByCategoryId(int categoryId)
         {
 
-            return _productDal.GetAll(p => p.CategoryId == id);//categorileri gez bizim berdiğimiz categorye eşit olanları returnle
+            return _productDal.GetAll(p => p.CategoryId == categoryId);//categorileri gez bizim berdiğimiz categorye eşit olanları returnle
 
 
 
@@ -72,12 +73,12 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id));
         }
 
-       
 
-        
-       
-        }
+
+
+
     }
+}
 
 
 

@@ -3,6 +3,7 @@ using Entities.Concrete;
 using Entities.DTO;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Business.Abstract
@@ -11,10 +12,10 @@ namespace Business.Abstract
     {
 
 
-        IDataResult <List<Product>> GetAll();// T nin yerine list<Product> verdik aslında
+        IDataResult <List<Product>> GetAll(Expression<Func<Product, bool>> filter = null);// T nin yerine list<Product> verdik aslında
         IDataResult<List<Product>> GetAllByCategoryId(int id);
 
-        List<Product> GetProductDetails(int id);
+        List<Product> GetProductsByCategoryId(int categoryId);
 
         IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max);
 
