@@ -7,7 +7,7 @@ namespace Business.Constants
 {
   public static  class Messages
     {
-
+        public static string UnitPriceİnvalid = "ürün degeri eklenmemiş";
         public static string ProductAdded = "ürün eklendi";
         public static string ProductNameInvalid = "ürün ismi geçersiz";
        internal static string ProductsListed = "ürünler listelendi";
