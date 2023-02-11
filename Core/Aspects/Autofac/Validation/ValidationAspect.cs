@@ -16,7 +16,7 @@ namespace Core.Aspects.Autofac.Validation
         {
             if (!typeof(IValidator).IsAssignableFrom(validatorType))
             {
-                throw new System.Exception("bu bir dofrulama sınıfı değil");
+                throw new System.Exception("bu bir dogrulama sınıfı değil");
             }
 
             _validatorType = validatorType;
@@ -24,7 +24,7 @@ namespace Core.Aspects.Autofac.Validation
         protected override void OnBefore(IInvocation invocation)
         {
             var validator = (IValidator)Activator.CreateInstance(_validatorType);
-            var entityType = _validatorType.BaseType.GetGenericArguments()[0];
+            var entityType = _validatorType.BaseType.GetGenericArguments()[0];//örnkte productı yakalıyor
             var entities = invocation.Arguments.Where(t => t.GetType() == entityType);
             foreach (var entity in entities)
             {

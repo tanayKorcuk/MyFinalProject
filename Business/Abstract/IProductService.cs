@@ -11,7 +11,7 @@ namespace Business.Abstract
     public interface IProductService
     {
 
-
+        
         IDataResult <List<Product>> GetAll(Expression<Func<Product, bool>> filter = null);// T nin yerine list<Product> verdik aslında
         IDataResult<List<Product>> GetAllByCategoryId(int id);
 
@@ -24,5 +24,8 @@ namespace Business.Abstract
         IDataResult<Product> GetById(int productId);
 
         IResult Add(Product product);//void dödüğü için ıresult
+
+        IResult Update(Product product);
+
     }
 }
