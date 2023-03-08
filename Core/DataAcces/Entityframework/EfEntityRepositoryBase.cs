@@ -22,8 +22,6 @@ namespace Core.DataAcces.Entityframework
                 var addedEntitiy = context.Entry(entity);
                 addedEntitiy.State = EntityState.Added;//EntityState statik class mı?
                 context.SaveChanges();
-
-
             }
         }
 

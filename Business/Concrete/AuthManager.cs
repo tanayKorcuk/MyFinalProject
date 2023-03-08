@@ -53,11 +53,14 @@ namespace Business.Concrete
 
         public IResult UserExists(string email)
         {
-            if (_userService.GetByMail(email) != null)
+            var user = _userService.GetByMail(email);
+
+            if (user != null)
             {
-                return new ErrorResult("boyle bir kullanıcı kayıtlı");
+                return new SuccessResult("Kullanıcı mevcut.");
             }
-            return new SuccessResult();
+
+            return new ErrorResult();
         }
 
         public IDataResult<AccessToken> CreateAccessToken(User user)
