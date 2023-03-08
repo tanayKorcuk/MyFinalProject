@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Entities.Concrete;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,10 +14,15 @@ namespace WebAPI.Controllers
     public class AuthController : Controller
     {
         private IAuthService _authService;
+        private IUserService _userService; // TEST
 
-        public AuthController(IAuthService authService)
+        public AuthController(
+            IAuthService authService,
+            IUserService userService // TEST
+            )
         {
             _authService = authService;
+            _userService = userService; // TEST
         }
 
         [HttpPost("login")]
@@ -47,15 +53,33 @@ namespace WebAPI.Controllers
                 return BadRequest(userExists.Message);
             }
 
-            var registerResult = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
-            var result = _authService.CreateAccessToken(registerResult.Data);
+            //var registerResult = _authService.Register(userForRegisterDto, userForRegisterDto.Password);
+            //var result = _authService.CreateAccessToken(registerResult.Data);
 
-            if (result.Success)
+            //if (result.Success)
+            //{
+            //    return Ok(result.Data);
+            //}
+
+            var userToAdd = new User
             {
-                return Ok(result.Data);
-            }
+                Email = userForRegisterDto.Email,
+                LastName = userForRegisterDto.LastName,
+                FirstName = userForRegisterDto.FirstName,
+            };
 
-            return BadRequest(result.Message);
+            _userService.Add(userToAdd);
+
+            return Ok();
+        }
+
+        // TEST
+        [HttpGet("users")]
+        public ActionResult GetAllUsers()
+        {
+            var users = _userService.GetAll();
+
+            return Ok(users);
         }
     }
 }
