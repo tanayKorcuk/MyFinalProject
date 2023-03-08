@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.CSS;
 using Business.ValidationRules.FluentValidation;
@@ -14,6 +15,7 @@ using Entities.DTO;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -59,7 +61,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(ProductValidator))]//aspect ekledik-attribute
-
+        [SecuredOperation("product.add,admin")]
         public IResult Add(Product product)
         {
             // ValidationTool.Validate(new ProductValidator(), product);validationda bunu hallettik

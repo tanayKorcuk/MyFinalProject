@@ -14,7 +14,7 @@ namespace ConsoleUI
             //CategoryTest();-Category test çalışmıyor implemnt sonrası method blokları boş episode 9 
         }
 
-        private static void CategoryTest()//bir türlü çalışmıyor.
+     /*   private static void CategoryTest()//bir türlü çalışmıyor.
         {
             CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
 
@@ -24,7 +24,7 @@ namespace ConsoleUI
 
             }
         }
-
+     */
         private static void ProductTest()
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
