@@ -3,7 +3,8 @@ using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.CSS;
 using Business.ValidationRules.FluentValidation;
-
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Business;
@@ -30,7 +31,7 @@ namespace Business.Concrete
             _productDal = productdal;
             _categoryService = _categoryService;
         }
-
+        [CacheAspect]//yogun kullanılan metodlarda kullanılmalı
         public IDataResult<List<Product>> GetAll(Expression<Func<Product, bool>> filter = null)//list<Product> dan 
         {
             //   if (DateTime.Now.Hour == 1)
@@ -39,7 +40,7 @@ namespace Business.Concrete
             //}
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(filter), Messages.ProductsListed);
         }
-
+        [CacheAspect]
         public List<Product> GetProductsByCategoryId(int categoryId)
         {
 
@@ -59,7 +60,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<ProductDetailDto>>(_productDal.GetProductDetails());
         }
-
+        [CacheRemoveAspect("IProductService.Get")]
         [ValidationAspect(typeof(ProductValidator))]//aspect ekledik-attribute
         [SecuredOperation("product.add,admin")]
         public IResult Add(Product product)
@@ -93,9 +94,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id));
         }
         [ValidationAspect(typeof(ProductValidator))]
+      
+        
         public IResult Update(Product product)
         {
             throw new NotImplementedException();
+       
+        
+        
+        
+        
         }
     
         private IResult CheckIfProductCountOfCategoryCorrect(int categoryId) 
@@ -131,9 +139,11 @@ namespace Business.Concrete
             }
         return new SuccessResult();
         }
-
-
-
+//[TransactionScopeAspect]
+//        pu        blic IResult AddTransactionalTest(Product product)
+//        {
+//            _productDal.Add(product);
+//        }
     }
 
 
