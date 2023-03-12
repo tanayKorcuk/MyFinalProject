@@ -38,18 +38,18 @@ namespace Business.Concrete
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
             var userToCheck = _userService.GetByMail(userForLoginDto.Email);
-           
+
             if (userToCheck == null)
             {
                 return new ErrorDataResult<User>("kullanıcı bulunamadı");
             }
 
-            if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
+            if (HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt) == false)
             {
-                return new ErrorDataResult<User>("pasaport hatası");
+                return new ErrorDataResult<User>("password hatası");
             }
 
-            return new SuccessDataResult<User>(userToCheck, "basarıyla giris yapıldı");//Messages.SuccessfulLogin-refoctor edilebilir
+            return new SuccessDataResult<User>(userToCheck, "basarıyla giris yapıldı"); //Messages.SuccessfulLogin-refoctor edilebilir
         }
 
         public IResult UserExists(string email)

@@ -22,23 +22,21 @@ namespace WebAPI.Controllers
         [HttpPost("login")]//loginde hata alıyorum
         public ActionResult Login(UserForLoginDto userForLoginDto)
         {
-            var userToLogin = _authService.Login(userForLoginDto);
-          
-            if (!userToLogin.Success)
+            var loginResult = _authService.Login(userForLoginDto);
+
+            if (loginResult.Success == false)
             {
-               
-                return BadRequest(userToLogin.Message);
-            
+                return BadRequest(loginResult.Message);
             }
 
-            var result = _authService.CreateAccessToken(userToLogin.Data);
-           
-            if (result.Success)
+            var result = _authService.CreateAccessToken(loginResult.Data);
+
+            if (result.Success == false)
             {
-                return Ok(result.Data);
+                return BadRequest(result.Message);
             }
 
-            return BadRequest(result.Message);
+            return Ok(result.Data);
         }
 
         [HttpPost("register")]
