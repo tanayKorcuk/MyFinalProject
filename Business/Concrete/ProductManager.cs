@@ -4,6 +4,7 @@ using Business.Constants;
 using Business.CSS;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
 using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
@@ -83,7 +84,7 @@ namespace Business.Concrete
 
 
         }
-
+        [PerformanceAspect(5)]//method 5snyi geçerse beni uyar. Performans sorunlarında kullanılabilir
         public IDataResult<Product> GetById(int id)
         {
             return new SuccessDataResult<Product>(_productDal.Get(p => p.ProductId == id));
@@ -139,11 +140,14 @@ namespace Business.Concrete
             }
         return new SuccessResult();
         }
-//[TransactionScopeAspect]
-//        pu        blic IResult AddTransactionalTest(Product product)
-//        {
-//            _productDal.Add(product);
-//        }
+        [TransactionScopeAspect]
+       
+        public IResult AddTransactionalTest(Product product)
+       {
+             _productDal.Add(product);
+
+             return new SuccessResult(Messages.ProductAdded);
+        }
     }
 
 
