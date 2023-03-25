@@ -22,20 +22,14 @@ namespace WebAPI.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            
             var result = _categoryService.GetAll();
 
-            if (result.Success)
+            if (result.Success == false)
             {
-                return Ok(result);
+                return BadRequest();
             }
 
-            return BadRequest(result);
+            return Ok(result);
         }
-
-
-
-
-
     }
 }
